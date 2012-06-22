@@ -37,8 +37,6 @@ pip install -r requirements.txt
 
 ### Configure project ###
 ```bash
-cp {{ project_name }}/__local_settings.py {{ project_name }}/local_settings.py
-vi {{ project_name }}/local_settings.py
 ```
 
 ### Sync database ###

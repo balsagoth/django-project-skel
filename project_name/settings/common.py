@@ -1,12 +1,15 @@
-# Global settings for {{ project_name }} project.
-import os
+import os, sys
+from django.utils.translation import ugettext as _
 
-PROJECT_DIR = os.path.dirname(__file__)
-PUBLIC_DIR = os.path.join(PROJECT_DIR, 'public')
+gettext = lambda s: s
 
-DEBUG = False
-TEMPLATE_DEBUG = True
+DEBUG = True
+TEMPLATE_DEBUG = DEBUG
 
+# DEFAULT PATHS
+SETTINGS_PATH =  os.path.realpath(os.path.dirname(__file__))
+PROJECT_PATH = (os.path.split(SETTINGS_PATH))[0]
+SITE_PATH = (os.path.split(PROJECT_PATH))[0]
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
 )
@@ -20,11 +23,21 @@ MANAGERS = ADMINS
 # timezone as the operating system.
 # If running in a Windows environment this must be set to the same as your
 # system time zone.
-TIME_ZONE = 'UTC'
+#TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Lisbon'
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
-LANGUAGE_CODE = 'en-us'
+#LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'pt-PT'
+LC_ALL='pt.UTF-8'
+
+LANGUAGES = [
+    ('en', gettext('English')),
+    ('pt', gettext('Portuguese')),
+]
+
+
 
 SITE_ID = 1
 
@@ -41,7 +54,7 @@ USE_TZ = True
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
-MEDIA_ROOT = os.path.join(PUBLIC_DIR, 'media')
+MEDIA_ROOT = os.path.join(SITE_PATH, 'media')
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
@@ -52,7 +65,7 @@ MEDIA_URL = '/media/'
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/home/media/media.lawrence.com/static/"
-STATIC_ROOT = os.path.join(PUBLIC_DIR, 'static')
+STATIC_ROOT = os.path.join(SITE_PATH, 'sitestatic')
 
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
@@ -63,7 +76,7 @@ STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    os.path.join(PROJECT_DIR, 'static'),
+    os.path.join(PROJECT_PATH, 'static'),
 )
 
 # List of finder classes that know how to find static files in
@@ -97,7 +110,7 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    os.path.join(PROJECT_DIR, 'templates'),
+    os.path.join(PROJECT_PATH, 'templates'),
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
@@ -111,7 +124,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 )
 
 FIXTURE_DIRS = (
-    os.path.join(PROJECT_DIR, 'fixtures'),
+    os.path.join(PROJECT_PATH, 'fixtures'),
 )
 
 INSTALLED_APPS = (
@@ -153,10 +166,3 @@ LOGGING = {
     }
 }
 
-try:
-    LOCAL_SETTINGS
-except NameError:
-    try:
-        from local_settings import *
-    except ImportError:
-        pass
